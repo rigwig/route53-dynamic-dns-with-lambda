@@ -84,7 +84,7 @@ while not username:
     print('Enter the username for the new record set.')
     username=input()
 
-secret=""
+password=""
 while not password:
     print('Enter the password for the new record set.')
     password=input()
