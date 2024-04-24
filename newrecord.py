@@ -79,18 +79,22 @@ except:
     else:
         print("You need an hosted zone to continue.")
         exit()
+username=""
+while not username:
+    print('Enter the username for the new record set.')
+    username=input()
 
 secret=""
 while not secret:
-    print('Enter the secret for the new record set.')
+    print('Enter the password for the new record set.')
     secret=input()
-    print('Confirm the secret: ')
+    print('Confirm the password: ')
     secret2=input()
     if secret != secret2:
         secret=""
         print('#####################################')
         print('#                                   #')
-        print('# Secret does not match. Try again. #')
+        print('#Password does not match. Try again. #')
         print('#                                   #')
         print('#####################################')
         secret=""
@@ -102,7 +106,8 @@ print('#                                            #')
 print('  Host name:  '+hostname)
 print('  Hosted zone id: '+hzid)
 print('  Record set TTL: '+str(ttl))
-print('  Secret: '+secret)
+print('  Username: '+username)
+print('  Password: '+secret)
 print('#                                            #')
 print('#      do you want to continue? (y/n)        #')
 print('#                                            #')
@@ -119,7 +124,7 @@ if confirm == 'y':
                     'S': hostname
                 },
                 'data': {
-                    'S': '{"route_53_zone_id": "'+hzid+'","route_53_record_ttl": '+str(ttl)+',"shared_secret": "'+secret+'"}'
+                    'S': '{"route_53_zone_id": "'+hzid+'","route_53_record_ttl": '+str(ttl)+',"shared_username": "'+username+'","shared_secret": "'+secret+'"}'
                 }
             }
         )
