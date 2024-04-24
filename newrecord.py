@@ -1,5 +1,6 @@
 import time
 import boto3
+import base64
 route53 = boto3.client('route53')
 dynamodb = boto3.client('dynamodb')
 awslambda = boto3.client('lambda')
