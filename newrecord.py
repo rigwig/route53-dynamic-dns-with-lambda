@@ -85,20 +85,10 @@ while not username:
     username=input()
 
 secret=""
-while not secret:
+while not password:
     print('Enter the password for the new record set.')
-    secret=input()
-    print('Confirm the password: ')
-    secret2=input()
-    if secret != secret2:
-        secret=""
-        print('#####################################')
-        print('#                                   #')
-        print('#Password does not match. Try again. #')
-        print('#                                   #')
-        print('#####################################')
-        secret=""
-        continue
+    password=input()
+    
 print('##############################################')
 print('#                                            #')
 print('# The following configuration will be saved: #')
@@ -107,7 +97,7 @@ print('  Host name:  '+hostname)
 print('  Hosted zone id: '+hzid)
 print('  Record set TTL: '+str(ttl))
 print('  Username: '+username)
-print('  Password: '+secret)
+print('  Password: '+password)
 print('#                                            #')
 print('#      do you want to continue? (y/n)        #')
 print('#                                            #')
@@ -116,6 +106,9 @@ confirm=input()
 if confirm == 'y':
     # Write configuration in dynamodb
     print('\nSaving configuration...')
+
+    userpass = username + ':' + password
+    secret = base64.b64encode(userpass.encode()).decode('utf-8')
     try:
         dynamodb.put_item(
             TableName= table,
@@ -124,7 +117,7 @@ if confirm == 'y':
                     'S': hostname
                 },
                 'data': {
-                    'S': '{"route_53_zone_id": "'+hzid+'","route_53_record_ttl": '+str(ttl)+',"shared_username": "'+username+'","shared_secret": "'+secret+'"}'
+                    'S': '{"route_53_zone_id": "'+hzid+'","route_53_record_ttl": '+str(ttl)+',"shared_secret": "'+secret+'"}'
                 }
             }
         )
